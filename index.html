@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<style>
+body {
+  background: #241818;
+  font-family: "Times New Roman", serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-box {
+  background: #3b2a2a;
+  padding: 30px;
+  border-radius: 12px;
+  width: 340px;
+  color: gold;
+  box-shadow: 0 0 20px black;
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* Rotary Dial */
+.rotary-container {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.rotary {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #222 38%, #b08d57 39%);
+  position: relative;
+  transition: transform 0.7s ease-out;
+}
+
+/* Center hole */
+.rotary::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: black;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Numbers */
+.number {
+  position: absolute;
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 10px;
+  background: #b08d57;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+button:hover {
+  background: gold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+  <h2>☎ Login</h2>
+
+  <!-- USER ID -->
+  <input type="text" id="userid" placeholder="User ID">
+
+  <!-- PASSWORD -->
+  <input type="password"
+         id="password"
+         placeholder="Password (10 digits)"
+         maxlength="10"
+         oninput="spinDial(this)">
+
+  <!-- ROTARY DIAL -->
+  <div class="rotary-container">
+    <div class="rotary" id="rotary">
+      <!-- Numbers -->
+      <div class="number" style="top:10px; left:80px;">1</div>
+      <div class="number" style="top:30px; left:120px;">2</div>
+      <div class="number" style="top:65px; left:150px;">3</div>
+      <div class="number" style="top:110px; left:145px;">4</div>
+      <div class="number" style="top:145px; left:115px;">5</div>
+      <div class="number" style="top:155px; left:80px;">6</div>
+      <div class="number" style="top:145px; left:45px;">7</div>
+      <div class="number" style="top:110px; left:15px;">8</div>
+      <div class="number" style="top:65px; left:10px;">9</div>
+      <div class="number" style="top:30px; left:45px;">0</div>
+    </div>
+  </div>
+
+  <button onclick="login()">Connect</button>
+</div>
+
+<script>
+const correctUser = "admin";
+const correctPass = "1234567890";
+
+function spinDial(input) {
+  // Numbers only
+  input.value = input.value.replace(/\D/g, "");
+
+  const rotary = document.getElementById("rotary");
+  let lastDigit = input.value.slice(-1);
+  if (!lastDigit) return;
+
+  let angle = (lastDigit === "0") ? 300 : lastDigit * 30;
+
+  rotary.style.transform = `rotate(${angle}deg)`;
+
+  setTimeout(() => {
+    rotary.style.transform = "rotate(0deg)";
+  }, 600);
+}
+
+function login() {
+  const user = document.getElementById("userid").value;
+  const pass = document.getElementById("password").value;
+
+  if (user === correctUser && pass === correctPass) {
+    window.location.href = "success.html";
+  } else {
+    alert("Wrong credentials ☎");
+  }
+}
+</script>
+
+</body>
+</html>
